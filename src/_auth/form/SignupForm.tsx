@@ -40,9 +40,9 @@ function SignupForm() {
   });
 
   // Queries
-  const { mutateAsync: createUserAccount, isPending: isCreatingAccount } =
+  const { mutateAsync: createUserAccount, isLoading: isCreatingAccount } =
     useCreateUserAccount();
-  const { mutateAsync: signInAccount, isPending: isSigningInUser } =
+  const { mutateAsync: signInAccount, isLoading: isSigningInUser } =
     useSignInAccount();
 
   // 2. Define a submit handler.
