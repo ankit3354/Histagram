@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,12 +18,14 @@ import { useToast } from "@/components/ui/use-toast";
 import { SigninValidation } from "@/lib/validation";
 import { useSignInAccount } from "@/lib/react-query/queriesAndMutaion";
 import { userContext } from "@/context/AuthContext";
+import { IoEye } from "react-icons/io5";
+import { IoMdEyeOff } from "react-icons/io";
 
 function SigninForm() {
   const { toast } = useToast();
   const navigate = useNavigate();
   const { checkAuthUser, isLoading: isUserLoading } = userContext();
-  // const isLoading = false;
+  const [Showpassword, setShowPassword] = useState(false);
 
   const { mutateAsync: signInAccount, isLoading } = useSignInAccount();
 
@@ -58,6 +61,10 @@ function SigninForm() {
       toast({ title: "Login failed. Please try again." });
       return;
     }
+  };
+
+  const hanldeShowPassword = () => {
+    setShowPassword(!Showpassword);
   };
 
   return (
@@ -103,7 +110,19 @@ function SigninForm() {
               <FormItem>
                 <FormLabel className="shad-form_label">Password</FormLabel>
                 <FormControl>
-                  <Input type="password" className="shad-input" {...field} />
+                  <div className="relative">
+                    <Input
+                      type={Showpassword ? "text" : "password"}
+                      className="shad-input"
+                      {...field}
+                    />
+                    <span
+                      onClick={hanldeShowPassword}
+                      className="cursor-pointer  absolute top-5 left-[88%]"
+                    >
+                      {Showpassword ? <IoEye /> : <IoMdEyeOff />}
+                    </span>
+                  </div>
                 </FormControl>
 
                 <FormMessage />

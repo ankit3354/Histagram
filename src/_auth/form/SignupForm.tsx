@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -20,11 +21,14 @@ import {
   useSignInAccount,
 } from "@/lib/react-query/queriesAndMutaion";
 import { userContext } from "@/context/AuthContext";
+import { IoEye } from "react-icons/io5";
+import { IoMdEyeOff } from "react-icons/io";
 
 function SignupForm() {
   const { toast } = useToast();
   const navigate = useNavigate();
   const { checkAuthUser, isLoading: isUserLoading } = userContext();
+  const [Showpassword, setShowPassword] = useState(false);
 
   // const isLoading = false;
 
@@ -83,6 +87,10 @@ function SignupForm() {
     } catch (error) {
       console.log({ error });
     }
+  };
+
+  const hanldeShowPassword = () => {
+    setShowPassword(!Showpassword);
   };
 
   return (
@@ -154,7 +162,19 @@ function SignupForm() {
               <FormItem>
                 <FormLabel className="shad-form_label">Password</FormLabel>
                 <FormControl>
-                  <Input type="password" className="shad-input" {...field} />
+                  <div className="relative">
+                    <Input
+                      type={Showpassword ? "text" : "password"}
+                      className="shad-input"
+                      {...field}
+                    />
+                    <span
+                      onClick={hanldeShowPassword}
+                      className="cursor-pointer  absolute top-5 left-[88%]"
+                    >
+                      {Showpassword ? <IoEye /> : <IoMdEyeOff />}
+                    </span>
+                  </div>
                 </FormControl>
 
                 <FormMessage />
